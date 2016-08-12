@@ -23,7 +23,7 @@ do
                 shift
                 ;;
             p)
-                port=" -p $OPTARG"
+                port="-p $OPTARG"
                 shift
                 ;;
         esac
@@ -36,7 +36,7 @@ done
 dirname="$(mktemp -u)"
 
 echo "Loading dotfiles..."
-rsync -r -e "ssh$port" $dotfiles/ "$params:$dirname"
+rsync -r -e "ssh $port $ident" $dotfiles/ "$params:$dirname"
 env LC_DIR="$dirname" ssh -o SendEnv=LC_DIR -t $oargs ':; \
     chmod 700 $LC_DIR; \
     bash --rcfile $LC_DIR/remotebash.sh -i'
